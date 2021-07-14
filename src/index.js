@@ -1,18 +1,48 @@
 import _ from 'lodash';
-import printMe from './print.js';
+import style from './style.css';
 
- function component() {
-   const element = document.createElement('div');
-  const btn = document.createElement('button');
+let todoItem = [
+  {
+    "description": "Microverse daily tasks",
+    "completed": true,
+    "index": 0
+  },
+  {
+    "description": "Read Product Book",
+    "completed": false,
+    "index": 0
+  },
+  {
+    "description": "Get started on webpack",
+    "completed": true,
+    "index": 0
+  },
+  {
+    "description": "Microverse daily tasks",
+    "completed": true,
+    "index": 0
+  },
+  {
+    "description": "Cook food",
+    "completed": true,
+    "index": 0
+  },
+]
 
-   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+const displayTodo = () => {
+for (let i = 0; i < todoItem.length; i++){
+let todoContain = document.getElementById("todo-list")
+const div = document.createElement('div')
+  const ul = document.createElement('ul')
+ let display = ul.innerHTML = `
+   <li>${todoItem[i].description}</li>
+   `
 
-  btn.innerHTML = 'Click me and check the console!';
-  btn.onclick = printMe;
+  todoContain.appendChild(ul)
 
-  element.appendChild(btn);
-
-   return element;
- }
-
- document.body.appendChild(component());
+console.log(display)
+  // console.log(todoItem[i]);
+  
+  }
+}
+displayTodo()
