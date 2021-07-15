@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import style from './style.css';
+import "./style.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 let todoItem = [
   {
@@ -32,17 +33,16 @@ let todoItem = [
 const displayTodo = () => {
 for (let i = 0; i < todoItem.length; i++){
 let todoContain = document.getElementById("todo-list")
-const div = document.createElement('div')
-  const ul = document.createElement('ul')
- let display = ul.innerHTML = `
-   <li>${todoItem[i].description}</li>
+  const div = document.createElement('div')
+ let display = div.innerHTML = `
+ <input type="checkbox" class="custom-checkbox mt-2 mr-2"></input>
+   <p class="li flex-grow-1">${todoItem[i].description}</p>
+   <i class="fas fa-ellipsis-v text-secondary mt-2"></i>
    `
-
-  todoContain.appendChild(ul)
-
-console.log(display)
-  // console.log(todoItem[i]);
-  
+   let classestoAdd = ["d-flex"]
+  div.classList.add(...classestoAdd)
+  todoContain.appendChild(div)
+  console.log(display)  
   }
 }
 displayTodo()

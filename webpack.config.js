@@ -17,6 +17,7 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  
   output: {
     filename: '[name].bundle.js',
 
@@ -27,6 +28,13 @@ module.exports = {
 
   },
 
- 
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
   
 };

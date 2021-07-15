@@ -1,0 +1,27 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+ul {
+  text-decoration: none;
+}
+#todo {
+  box-shadow: 2px 2px 2px 2px lightgrey;
+}
+.border {
+  border-bottom: 2px solid black;
+}
+button {
+  outline: none;
+}
+input {
+  outline: none;
+  border: none;
+  font-style: italic;
+}
+i {
+  cursor: pointer;
+}
+.li {
+  text-decoration: none;
+}
