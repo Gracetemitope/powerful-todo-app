@@ -4,9 +4,11 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
+  /* eslint-disable */
+
   plugins: [new StylelintPlugin()],
   plugins: [new ESLintPlugin()],
-
+  /* eslint-enable */
 
   mode: 'development',
   entry: {
@@ -16,16 +18,18 @@ module.exports = {
   devServer: {
     contentBase: './dist',
   },
+  /* eslint-disable */
+
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Document',
       template: './src/index.html',
     }),
   ],
-  
+  /* eslint-enable */
+
   output: {
     filename: '[name].bundle.js',
-
 
     path: path.resolve(__dirname, 'dist'),
     clean: true,
@@ -37,20 +41,21 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],        
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
+  /* eslint-disable */
+
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
-        options: {
-          // eslint options (if necessary)
-        },
       },
     ],
   },
+    /* eslint-enable */
+
 };

@@ -22,10 +22,13 @@
   },
   "homepage": "https://github.com/Gracetemitope/powerful-todo-app#readme",
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-webpack-plugin": "^2.5.4",
     "express": "^4.17.1",
+    "hint": "^6.1.4",
     "html-webpack-plugin": "^5.3.2",
     "style-loader": "^3.1.0",
     "stylelint": "^13.13.1",
@@ -41,7 +44,6 @@
   "dependencies": {
     "-": "0.0.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "babel-eslint": "^8.2.6",
     "bootstrap": "^5.0.2",
     "css-loader": "^5.2.7",
     "csv-loader": "^3.0.3",
