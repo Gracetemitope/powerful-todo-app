@@ -3,11 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-
-
 module.exports = {
-  plugins: [new StylelintPlugin(options)],
-  plugins: [new ESLintPlugin(options)],
+  plugins: [new StylelintPlugin()],
+  plugins: [new ESLintPlugin()],
 
 
   mode: 'development',
@@ -41,11 +39,20 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
+  
       },
     ],
   },
-  
-  
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          // eslint options (if necessary)
+        },
+      },
+    ],
+  },
 };
