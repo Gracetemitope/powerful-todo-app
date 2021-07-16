@@ -1,5 +1,7 @@
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import dragAble from './dragAble';
+
 
 const todoItem = [
   {
@@ -32,7 +34,8 @@ const todoItem = [
 const displayTodo = () => {
   for (let i = 0; i < todoItem.length; i += 1) {
     const todoContain = document.getElementById('todo-list');
-    const div = document.createElement('div');
+    // const todoItem = document.getElemb
+    const div = document.createElement('li');
     div.innerHTML = `
  <input type="checkbox" class="custom-checkbox mt-2 mr-2"></input>
    <p class="li flex-grow-1">${todoItem[i].description}</p>
@@ -46,3 +49,4 @@ const displayTodo = () => {
 displayTodo();
 
 console.log('hello here');
+dragAble()
