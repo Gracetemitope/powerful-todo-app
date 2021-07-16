@@ -45,17 +45,5 @@ module.exports = {
       },
     ],
   },
-  /* eslint-disable */
-
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-      },
-    ],
-  },
-    /* eslint-enable */
 
 };
