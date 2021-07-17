@@ -1,8 +1,9 @@
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
-  addTodo, getTodos, displayTodo, todoItem, clearAllCompleted,
+  getTodos, displayTodo, todoItem, clearAllCompleted,
 } from './dragAble';
+import { addTodo } from './todoActions';
 
 const displayAllTodos = () => {
   for (let i = 0; i < todoItem.length; i += 1) {
