@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
 /* eslint-disable */
+import { editTodoDescription, onDeleteTodo } from './todoActions';
 import { updateTodoStatus } from './todoStatus';
 
 export let todoItem = [];
@@ -12,8 +12,9 @@ function reorderArray(from, to, arr) {
   return newArr;
 }
 
-export function saveTodos() {
-  localStorage.setItem('todos', JSON.stringify(todoItem));
+export function saveTodos(items) {
+  if (items) todoItem = items;
+  localStorage.setItem('todos', JSON.stringify(items || todoItem));
 }
 
 let previousIndex = 0;
@@ -58,44 +59,11 @@ export const draggableMethods = {
     }
   },
 };
-/* eslint-disable */
-export const onDeleteTodo = (event) => removeTodo(event.target.id);
-/* eslint-enable */
-
-export const editTodoDescription = (event) => {
-  event.preventDefault();
-  const { value } = event.target;
-  const { id } = event.target.parentElement;
-  todoItem = todoItem.map((item) => {
-    if (item.id === id) {
-      item.description = value;
-    }
-    return item;
-  });
-  console.log('todoItem', todoItem);
-  saveTodos();
-};
-
-export const addTodo = () => {
-  const input = document.querySelector('.add-todo-input');
-  const newTodo = {
-    description: input.value,
-    completed: false,
-    id: uuidv4(),
-  };
-  todoItem = [...todoItem, newTodo];
-  input.value = '';
-  /* eslint-disable */
-
-  displayTodo(newTodo);
-  /* eslint-enable */
-
-  saveTodos();
-};
 
 export function getTodos() {
   const todos = JSON.parse(localStorage.getItem('todos')) || [];
   todoItem = todos;
+  return todos;
 }
 
 export const displayTodo = (todo) => {
@@ -126,22 +94,9 @@ export const displayTodo = (todo) => {
   todoContain.insertBefore(item, todoContain.firstChild);
 };
 
-export function removeTodo(id) {
-  const todoContain = document.getElementById('todo-list');
-  todoItem = todoItem.filter((item) => item.id !== id);
-  todoContain.childNodes.forEach((node) => {
-    if (node.id === id) {
-      todoContain.removeChild(node);
-    }
-  });
-  saveTodos();
-}
-
 export function clearAllCompleted() {
   const todoContain = document.getElementById('todo-list');
-  console.log('childnodes', todoContain.children);
   Array.from(todoContain.children).forEach((node) => {
-    console.log('node', node);
     if (node.dataset && node.dataset.completed.toString() === 'true') {
       todoContain.removeChild(node);
     }
