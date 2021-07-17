@@ -58,6 +58,45 @@ export const draggableMethods = {
     }
   },
 };
+/* eslint-disable */
+export const onDeleteTodo = (event) => removeTodo(event.target.id);
+/* eslint-enable */
+
+export const editTodoDescription = (event) => {
+  event.preventDefault();
+  const { value } = event.target;
+  const { id } = event.target.parentElement;
+  todoItem = todoItem.map((item) => {
+    if (item.id === id) {
+      item.description = value;
+    }
+    return item;
+  });
+  console.log('todoItem', todoItem);
+  saveTodos();
+};
+
+export const addTodo = () => {
+  const input = document.querySelector('.add-todo-input');
+  const newTodo = {
+    description: input.value,
+    completed: false,
+    id: uuidv4(),
+  };
+  todoItem = [...todoItem, newTodo];
+  input.value = '';
+  /* eslint-disable */
+
+  displayTodo(newTodo);
+  /* eslint-enable */
+
+  saveTodos();
+};
+
+export function getTodos() {
+  const todos = JSON.parse(localStorage.getItem('todos')) || [];
+  todoItem = todos;
+}
 
 export const displayTodo = (todo) => {
   const todoContain = document.getElementById('todo-list');
@@ -81,7 +120,7 @@ export const displayTodo = (todo) => {
     event.target.classList.add('d-none');
     event.target.nextElementSibling.classList.remove('d-none');
   });
-  item.querySelector(".delete-todo-btn").addEventListener('click', onDeleteTodo);
+  item.querySelector('.delete-todo-btn').addEventListener('click', onDeleteTodo);
   item.querySelector('.todo-input').value = todo.description;
   item.querySelector('.todo-input').addEventListener('change', editTodoDescription);
   todoContain.insertBefore(item, todoContain.firstChild);
@@ -91,53 +130,19 @@ export function removeTodo(id) {
   const todoContain = document.getElementById('todo-list');
   todoItem = todoItem.filter((item) => item.id !== id);
   todoContain.childNodes.forEach((node) => {
-    if(node.id === id) {
+    if (node.id === id) {
       todoContain.removeChild(node);
     }
   });
   saveTodos();
 }
 
-export const onDeleteTodo = (event) => removeTodo(event.target.id);
-
-export const editTodoDescription = (event) => {
-  event.preventDefault();
-  const { value } = event.target;
-  const id = event.target.parentElement.id;
-  todoItem = todoItem.map((item) => {
-    if(item.id === id) {
-      item.description = value;
-    }
-    return item;
-  });
-  console.log('todoItem', todoItem);
-  saveTodos();
-}
-
-export const addTodo = () => {
-  const input = document.querySelector('.add-todo-input');
-  const newTodo = {
-    description: input.value,
-    completed: false,
-    id: uuidv4(),
-  };
-  todoItem = [...todoItem, newTodo];
-  input.value = '';
-  displayTodo(newTodo);
-  saveTodos();
-};
-
-export function getTodos() {
-  const todos = JSON.parse(localStorage.getItem('todos')) || [];
-  todoItem = todos;
-}
-
 export function clearAllCompleted() {
   const todoContain = document.getElementById('todo-list');
-  console.log('childnodes',todoContain.children);
+  console.log('childnodes', todoContain.children);
   Array.from(todoContain.children).forEach((node) => {
     console.log('node', node);
-    if(node.dataset && node.dataset.completed.toString() === 'true') {
+    if (node.dataset && node.dataset.completed.toString() === 'true') {
       todoContain.removeChild(node);
     }
   });
