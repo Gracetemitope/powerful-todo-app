@@ -1,5 +1,5 @@
 /* eslint-disable */
-  import { getTodos } from './dragAble';
+import { getTodos } from './dragAble';
 
 export function updateTodoStatus(event) {
     /* eslint-enable */

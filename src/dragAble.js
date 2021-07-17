@@ -5,12 +5,38 @@ import { updateTodoStatus } from './todoStatus';
 export let todoItem = [];
   /* eslint-enable */
 
+function reorderArray(from, to, arr) {
+  const newArr = [...arr];
+  const item = newArr.splice(from, 1)[0];
+  newArr.splice(to, 0, item);
+  return newArr;
+}
+
+let previousIndex = 0;
+let newIndex = 0;
 export const draggableMethods = {
-  onDragStart: (event) => event.target.classList.add('drag-sort-active'),
-  onDragEnd: (event) => event.target.classList.remove('drag-sort-active'),
+  onDragStart: (event) => {
+    event.target.classList.add('drag-sort-active');
+    const container = document.getElementById('todo-list');
+    const containerChildren = Array.from(container.children);
+    previousIndex = containerChildren.length - 1 - containerChildren.indexOf(event.target);
+  },
+  onDragEnd: (event) => {
+  },
+  onDrop: (event) => {
+    event.preventDefault();
+    const container = document.getElementById('todo-list');
+    const draggable = document.querySelector('.drag-sort-active');
+    const containerChildren = Array.from(container.children);
+    newIndex = containerChildren.length - 1 - containerChildren.indexOf(draggable);
+    todoItem = reorderArray(previousIndex, newIndex, todoItem);
+    draggable.classList.remove('drag-sort-active');
+    saveTodos();
+  },
   onDragOver: (event) => {
     event.preventDefault();
     const draggableElements = [...document.querySelectorAll('.draggable:not(.drag-sort-active)')];
+    const draggable = document.querySelector('.drag-sort-active');
     const container = document.getElementById('todo-list');
     const afterElement = draggableElements.reduce((closest, child) => {
       const box = child.getBoundingClientRect();
@@ -20,7 +46,6 @@ export const draggableMethods = {
       }
       return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
-    const draggable = document.querySelector('.drag-sort-active');
     if (afterElement === null) {
       container.appendChild(draggable);
     } else {
@@ -34,10 +59,10 @@ export const displayTodo = (todo) => {
   const item = document.createElement('li');
   item.innerHTML = `
  <input id=${todo.id} type="checkbox" ${todo.completed ? 'checked' : ''} value=${todo.completed} class="custom-checkbox mr-2"></input>
-   <label class="flex-grow-1" for=${todo.id}><p class="li">${todo.description}</p></label>
-   <i id=${todo.id} class="fas fa-ellipsis-v text-secondary  delete-todo-btn " id="delete-btn"></i>
+   <input type="text" class="flex-grow-1 todo-input">
+   <i id=${todo.id} class="fas fa-ellipsis-v text-secondary ellipsis " id="delete-btn"></i>
+   <i id=${todo.id} class="fas fa-trash text-secondary d-none delete-todo-btn " id="delete-btn"></i>
    `;
-  console.log('innerHTML', item);
   item.classList.add('d-flex', 'align-items-center', 'mt-2', 'draggable');
   item.setAttribute('draggable', 'true');
   item.setAttribute('id', `${todo.id}`);
@@ -45,7 +70,13 @@ export const displayTodo = (todo) => {
   item.addEventListener('dragstart', draggableMethods.onDragStart);
   item.addEventListener('dragend', draggableMethods.onDragEnd);
   todoContain.addEventListener('dragover', draggableMethods.onDragOver);
+  todoContain.addEventListener('drop', draggableMethods.onDrop);
   item.querySelector('.custom-checkbox').addEventListener('click', updateTodoStatus);
+  item.querySelector(".ellipsis").addEventListener('click', (event) => {
+    event.target.classList.add('d-none');
+    event.target.nextElementSibling.classList.remove('d-none');
+  });
+  item.querySelector('.todo-input').value = todo.description;
   todoContain.insertBefore(item, todoContain.firstChild);
 };
 
@@ -55,7 +86,6 @@ export function saveTodos() {
 
 export const addTodo = () => {
   const input = document.querySelector('.add-todo-input');
-  console.log('input value', input.value);
   const newTodo = {
     description: input.value,
     completed: false,
@@ -71,3 +101,4 @@ export function getTodos() {
   const todos = JSON.parse(localStorage.getItem('todos')) || [];
   todoItem = todos;
 }
+
