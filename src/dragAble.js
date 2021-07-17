@@ -12,8 +12,13 @@ function reorderArray(from, to, arr) {
   return newArr;
 }
 
+export function saveTodos() {
+  localStorage.setItem('todos', JSON.stringify(todoItem));
+}
+
 let previousIndex = 0;
 let newIndex = 0;
+
 export const draggableMethods = {
   onDragStart: (event) => {
     event.target.classList.add('drag-sort-active');
@@ -21,7 +26,7 @@ export const draggableMethods = {
     const containerChildren = Array.from(container.children);
     previousIndex = containerChildren.length - 1 - containerChildren.indexOf(event.target);
   },
-  onDragEnd: (event) => {
+  onDragEnd: () => {
   },
   onDrop: (event) => {
     event.preventDefault();
@@ -72,17 +77,13 @@ export const displayTodo = (todo) => {
   todoContain.addEventListener('dragover', draggableMethods.onDragOver);
   todoContain.addEventListener('drop', draggableMethods.onDrop);
   item.querySelector('.custom-checkbox').addEventListener('click', updateTodoStatus);
-  item.querySelector(".ellipsis").addEventListener('click', (event) => {
+  item.querySelector('.ellipsis').addEventListener('click', (event) => {
     event.target.classList.add('d-none');
     event.target.nextElementSibling.classList.remove('d-none');
   });
   item.querySelector('.todo-input').value = todo.description;
   todoContain.insertBefore(item, todoContain.firstChild);
 };
-
-export function saveTodos() {
-  localStorage.setItem('todos', JSON.stringify(todoItem));
-}
 
 export const addTodo = () => {
   const input = document.querySelector('.add-todo-input');
@@ -101,4 +102,3 @@ export function getTodos() {
   const todos = JSON.parse(localStorage.getItem('todos')) || [];
   todoItem = todos;
 }
-
